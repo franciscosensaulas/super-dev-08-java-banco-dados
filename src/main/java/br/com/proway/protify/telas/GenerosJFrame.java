@@ -7,6 +7,7 @@ package br.com.proway.protify.telas;
 import br.com.proway.protify.dao.GeneroDAO;
 import br.com.proway.protify.modelo.Genero;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -45,8 +46,11 @@ public class GenerosJFrame extends javax.swing.JFrame {
         jTextFieldNomeCadastrar = new javax.swing.JTextField();
         jButtonCadastrar = new javax.swing.JButton();
         jButtonConsultar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextAreaGeneros = new javax.swing.JTextArea();
+        jLabel5 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jButtonApagar.setText("Apagar");
         jButtonApagar.addActionListener(this::jButtonApagarActionPerformed);
@@ -66,6 +70,13 @@ public class GenerosJFrame extends javax.swing.JFrame {
         jButtonCadastrar.addActionListener(this::jButtonCadastrarActionPerformed);
 
         jButtonConsultar.setText("Consultar");
+        jButtonConsultar.addActionListener(this::jButtonConsultarActionPerformed);
+
+        jTextAreaGeneros.setColumns(20);
+        jTextAreaGeneros.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaGeneros);
+
+        jLabel5.setText("Generos");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,10 +112,15 @@ public class GenerosJFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextFieldIdEditar)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonConsultar)
-                            .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(8, Short.MAX_VALUE))
+                        .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonConsultar)))
+                .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,10 +129,10 @@ public class GenerosJFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextFieldNomeCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonCadastrar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonConsultar)
-                .addGap(60, 60, 60)
+                    .addComponent(jButtonCadastrar)
+                    .addComponent(jLabel5)
+                    .addComponent(jButtonConsultar))
+                .addGap(99, 99, 99)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextFieldIdApagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -132,10 +148,15 @@ public class GenerosJFrame extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jTextFieldNomeEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jButtonEditar, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(39, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonApagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApagarActionPerformed
@@ -169,11 +190,11 @@ public class GenerosJFrame extends javax.swing.JFrame {
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
         int id = Integer.parseInt(jTextFieldIdEditar.getText());
         String nome = jTextFieldNomeEditar.getText();
-        
+
         Genero genero = new Genero();
         genero.setId(id);
         genero.setNome(nome);
-        
+
         try {
             GeneroDAO dao = new GeneroDAO();
             dao.editar(genero);
@@ -182,8 +203,27 @@ public class GenerosJFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ocorre um erro ao alterar o genero");
             e.printStackTrace();
         }
-        
+
     }//GEN-LAST:event_jButtonEditarActionPerformed
+
+    private void jButtonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarActionPerformed
+        try {
+            GeneroDAO dao = new GeneroDAO();
+            ArrayList<Genero> generos = dao.consultarTodos();
+            
+            String resultados = "";
+            for(int i = 0; i < generos.size(); i++){
+                Genero genero = generos.get(i);
+                
+                resultados += genero.getId() + " => " + genero.getNome() + "\n";
+            }
+            
+            jTextAreaGeneros.setText(resultados);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Ocorre um erro ao consultar os generos|");
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButtonConsultarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -219,6 +259,9 @@ public class GenerosJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextAreaGeneros;
     private javax.swing.JTextField jTextFieldIdApagar;
     private javax.swing.JTextField jTextFieldIdEditar;
     private javax.swing.JTextField jTextFieldNomeCadastrar;
