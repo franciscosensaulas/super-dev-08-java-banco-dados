@@ -14,13 +14,14 @@ public class Protify {
 //            dao.inserir(genero);
 //            System.out.println("Genero cadastrado com sucesso");
 
-            Genero generoEditar = new Genero();
-            generoEditar.setId(4);
-            generoEditar.setNome("Pagodão");
-
+//            Genero generoEditar = new Genero();
+//            generoEditar.setId(4);
+//            generoEditar.setNome("Pagodão");
             GeneroDAO dao = new GeneroDAO();
-            dao.editar(generoEditar);
-            System.out.println("Genero editado com sucesso");
+//            dao.editar(generoEditar);
+//            System.out.println("Genero editado com sucesso");
+
+            dao.consultarTodos();
 
         } catch (Exception e) {
             System.out.println("Ocorreu um erro ao editar o genero");
